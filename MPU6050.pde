@@ -1,4 +1,4 @@
-import processing.io.I2C;
+//import processing.io.I2C;
 
 int power_mgmt_1 = 0x6B;
 int power_mgmt_2 = 0x6C;
@@ -15,7 +15,7 @@ class MPU6050 extends I2C {
     MPU6050(String dev, int address) {
     super(dev);
     this.address = address;
-    println("Adress Driver: "+ address);   
+    println("Adress Driver MPU6050 : "+ address);    
     init();    
   }
 
@@ -38,23 +38,23 @@ class MPU6050 extends I2C {
      float accelyScaled = accelyraw / 16384.0; 
      float accelzScaled = accelzraw / 16384.0;
      float xrotation = get_x_rotation(accelxScaled, accelyScaled, accelzScaled);
-     float yrotation = get_y_rotation(accelxScaled, accelyScaled, accelzScaled);
-     //for (int i = 0; i<2; i++){
-        float  xyVals[] = {xrotation, yrotation};
-        return xyVals; 
-       //}
-     
+     float yrotation = get_y_rotation(accelxScaled, accelyScaled, accelzScaled);     
+     float  xyVals[] = {xrotation, yrotation+90};
+     return xyVals;      
    }  
    
 //PROCESSS GET ROTATION   
-   float get_y_rotation(float x, float y, float z){
-    float radians = atan2(x, dist(y,z));
-    return -degrees(radians);
-}
+
  float get_x_rotation(float x, float y, float z){
     float radians = atan2(y, dist(x,z));
     return degrees(radians);
 }
+
+   float get_y_rotation(float x, float y, float z){
+    float radians = atan2(x, dist(y,z));
+    return degrees(radians);
+}
+
 float dist(float a, float b){
     return sqrt((a*a)+(b*b));
   }
